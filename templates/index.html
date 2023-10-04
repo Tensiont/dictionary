@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<p>{{words|length}} Words</p>
+<form method="post">
+    En <input type="text" name="en" autocomplete="off" required>
+    Ch <input type="text" name="ch" autocomplete="off" required>
+    <input class="btn" type="submit" name="submit" value="Add">
+</form>
+<ul class="word-list">
+    {% for word in words %}
+    <li>
+        <span class="float-left">
+            {{word.en}}
+        </span>
+         <span class="float-mid">
+            {{word.ch}}
+        </span>
+    </li>
+    {% endfor %}
+</ul>
+<img alt="Lovely Mao" class="maomao" src="{{url_for('static',filename='maomao.gif')}}" title="meow~">
+{% endblock %}
