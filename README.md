@@ -11,6 +11,6 @@
 ## 相关依赖
 
 ```
-pip install fl
+pip install flask
 ```
 
