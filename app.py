@@ -62,3 +62,29 @@ def index():
         return redirect(url_for('index'))  #重定向回主页
     words=Word.query.all()
     return render_template('index.html',words=words)
+
+@app.route('/word/edit/<int:word_id>',methods=['GET','POST'])
+def edit(word_id):
+    word=Word.query.get_or_404(word_id)
+
+    if request.method=='POST':
+        en = request.form.get('en')
+        ch = request.form.get('ch')
+        if not en or not ch or len(en) > 45 or len(ch) > 45:
+            flash('无效输入')
+            return redirect(url_for('index'))
+        # 保存表单数据到数据库
+        word.en=en
+        word.ch=ch
+        db.session.commit()
+        flash('更新单词：' + en)
+        return redirect(url_for('index'))  # 重定向回主页
+    return render_template('edit.html',word=word)
+
+@app.route('/word/delete/<int:word_id>',methods=['POST'])
+def delete(word_id):
+    word=Word.query.get_or_404(word_id)
+    db.session.delete(word)
+    db.session.commit()
+    flash('删除单词：'+word.en)
+    return redirect(url_for('index'))
